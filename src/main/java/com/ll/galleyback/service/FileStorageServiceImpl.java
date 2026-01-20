@@ -7,10 +7,12 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@ConditionalOnMissingBean(S3FileStorageService.class)
 public class FileStorageServiceImpl implements FileStorageService {
     
     @Value("${file.upload-dir}")

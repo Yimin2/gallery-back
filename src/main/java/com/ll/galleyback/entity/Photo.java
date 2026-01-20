@@ -26,7 +26,7 @@ public class Photo {
     @Column(length = 100)
     private String description;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 1000)
     private String imageUrl;
     
     @Builder

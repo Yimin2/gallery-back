@@ -27,7 +27,7 @@ public class PhotoService {
     }
 
     public PhotoResponse getPhoto(Long id) {
-        Photo photo = findByid(id);
+        Photo photo = findById(id);
         return PhotoResponse.fromEntity(photo);
     }
 
@@ -45,12 +45,12 @@ public class PhotoService {
 
     @Transactional
     public void deletePhoto(Long id) {
-        Photo photo = findByid(id);
+        Photo photo = findById(id);
         fileStorageService.delete(photo.getImageUrl());
         photoRepository.delete(photo);
     }
 
-    private Photo findByid(Long id) {
+    private Photo findById(Long id) {
         return photoRepository.findById(id).orElseThrow(() -> new RuntimeException("Photo not found"));
     }
 }
