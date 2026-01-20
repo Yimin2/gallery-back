@@ -53,3 +53,23 @@ jobs:
           tags: | 
             ${{ secrets.DOCKER_HUB_USERNAME }}/gallery-back:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/gallery-back:${{ github.sha }}
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps: 
+      - name: deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            cd ~/app
+            
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/gallery-back:latest
+            
+            docker compose down
+            docker compose up -d
+
+            docker image prune -f
